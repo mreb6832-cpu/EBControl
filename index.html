@@ -1,166 +1,262 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#080d19">
-  <meta name="description" content="EBCONTROL Universal Smart TV Remote">
-  <title>EBCONTROL - Universal TV Remote</title>
-  <link rel="manifest" href="/manifest.json">
-  <link rel="icon" href="/icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="/icon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071326">
+  <title>EBCONTROL | Universal TV Remote</title>
+
   <style>
-    * { box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
     body {
-      margin: 0; min-height: 100vh; padding: 22px;
-      background: #080d19; color: #f7f9fc;
-      font-family: Arial, Helvetica, sans-serif;
+      background: #071326;
+      color: white;
+      min-height: 100vh;
     }
-    .app { width: 100%; max-width: 480px; margin: 0 auto; }
-    header { display:flex; justify-content:space-between; align-items:center; gap:12px; }
-    .logo { font-size: 25px; font-weight: 900; letter-spacing: .5px; color:#42a5ff; }
-    .logo span { color:#fff; }
-    .tag { color:#91a1ba; font-size:12px; }
-    .card {
-      background:#121d30; border:1px solid #25334b;
-      border-radius:20px; padding:20px; margin-top:20px;
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 7%;
+      border-bottom: 1px solid #203454;
     }
-    h2 { font-size:20px; margin:0 0 12px; }
-    h3 { font-size:15px; margin:8px 0; }
-    select,input {
-      width:100%; padding:14px; margin:8px 0;
-      background:#0a1425; color:#fff;
-      border:1px solid #34445f; border-radius:10px; font-size:15px;
+
+    .logo {
+      font-size: 27px;
+      font-weight: bold;
+      letter-spacing: 1px;
     }
-    button {
-      border:0; border-radius:13px; padding:14px;
-      background:#1d2c45; color:white; font-size:16px;
-      cursor:pointer; touch-action: manipulation;
+
+    .logo span {
+      color: #08baff;
     }
-    button:focus-visible, select:focus-visible, input:focus-visible {
-      outline:2px solid #42a5ff; outline-offset:2px;
+
+    nav a {
+      color: #c5d5ed;
+      text-decoration: none;
+      margin-left: 25px;
+      font-size: 14px;
     }
-    .primary { background:#147cf5; width:100%; font-weight:bold; }
-    .status { text-align:center; color:#a5b5cc; font-size:13px; line-height:1.5; }
-    .power {
-      width:75px; height:75px; border-radius:50%;
-      background:#193c65; color:#55aaff; font-size:30px;
-      border:2px solid #2689ff;
+
+    nav a:hover {
+      color: #08baff;
     }
-    .pad {
-      display:grid; grid-template-columns:repeat(3,1fr);
-      gap:10px; max-width:260px; margin:20px auto;
+
+    .hero {
+      text-align: center;
+      padding: 85px 20px 55px;
+      background:
+        radial-gradient(circle at top, #12396c, transparent 65%);
     }
-    .pad button { height:55px; font-size:20px; }
-    .ok { background:#147cf5; border-radius:50%; }
-    .controls { display:grid; grid-template-columns:1fr 1fr; gap:15px; }
-    .controls button { width:100%; margin:5px 0; }
-    .install { display:none; margin-top:12px; width:100%; background:#203b5d; }
-    footer { text-align:center; color:#65758d; font-size:12px; margin:25px 0 10px; line-height:1.6; }
-    @media (max-width:360px) { body { padding:14px; } .card { padding:16px; } }
+
+    .hero h1 {
+      font-size: clamp(35px, 6vw, 65px);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: #08baff;
+    }
+
+    .hero p {
+      color: #a9bad4;
+      font-size: 17px;
+      line-height: 1.7;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .hero button {
+      margin-top: 30px;
+      padding: 15px 32px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #087cff, #08baff);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .hero button:hover {
+      opacity: .85;
+    }
+
+    .section {
+      padding: 35px 7%;
+      text-align: center;
+    }
+
+    .section h2 {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .section > p {
+      color: #9fb1ca;
+      margin-bottom: 30px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .feature {
+      background: #10213c;
+      border: 1px solid #233c61;
+      padding: 28px 20px;
+      border-radius: 15px;
+    }
+
+    .feature .icon {
+      font-size: 35px;
+      margin-bottom: 15px;
+    }
+
+    .feature h3 {
+      margin-bottom: 10px;
+    }
+
+    .feature p {
+      color: #9fb1ca;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .brands {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .brands span {
+      background: #10213c;
+      border: 1px solid #29466e;
+      border-radius: 9px;
+      padding: 13px 22px;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      margin-top: 45px;
+      border-top: 1px solid #203454;
+      color: #8296b5;
+      font-size: 13px;
+    }
+
+    @media(max-width: 650px) {
+      header {
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      nav a {
+        margin: 0 7px;
+        font-size: 12px;
+      }
+
+      .hero {
+        padding-top: 60px;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <main class="app">
-    <header>
-      <div class="logo">EB<span>CONTROL</span></div>
-      <div class="tag">UNIVERSAL TV REMOTE</div>
-    </header>
 
-    <section class="card">
-      <h2>📺 Connect your TV</h2>
-      <p class="tag">Choose your Smart TV brand</p>
-      <select id="brand" aria-label="TV brand">
-        <option>LG</option>
-        <option>Samsung</option>
-        <option>Sony</option>
-        <option>Hisense</option>
-        <option>TCL</option>
-        <option>Philips</option>
-        <option>Android TV</option>
-        <option>Google TV</option>
-      </select>
-      <input id="ip" inputmode="decimal" placeholder="TV IP address (optional)" aria-label="TV IP address">
-      <button class="primary" id="connectBtn">CONNECT TV</button>
-      <p class="status" id="status" role="status">Not connected</p>
-      <button class="install" id="installBtn">Install EBCONTROL</button>
-    </section>
+  <header>
+    <div class="logo">EB<span>CONTROL</span></div>
 
-    <section class="card" style="text-align:center">
-      <h2>Remote Control</h2>
-      <button class="power" data-command="Power" aria-label="Power">⏻</button>
-      <p class="tag">POWER</p>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#features">Features</a>
+      <a href="#brands">TV Brands</a>
+    </nav>
+  </header>
 
-      <div class="pad" aria-label="Navigation controls">
-        <span></span><button data-command="Up" aria-label="Up">▲</button><span></span>
-        <button data-command="Left" aria-label="Left">◀</button>
-        <button class="ok" data-command="OK">OK</button>
-        <button data-command="Right" aria-label="Right">▶</button>
-        <button data-command="Back">↩</button>
-        <button data-command="Down" aria-label="Down">▼</button>
-        <button data-command="Home">⌂</button>
+  <section class="hero" id="home">
+    <h1>Control Your TV.<br><span>Anywhere.</span></h1>
+
+    <p>
+      Welcome to EBCONTROL, your smart universal TV remote.
+      Enjoy a modern and simple way to manage compatible
+      Smart TVs from your phone.
+    </p>
+
+    <button onclick="showMessage()">
+      Get Started →
+    </button>
+  </section>
+
+  <section class="section" id="features">
+    <h2>Why Choose EBCONTROL?</h2>
+    <p>Everything you need in one smart remote experience.</p>
+
+    <div class="features">
+
+      <div class="feature">
+        <div class="icon">📱</div>
+        <h3>Easy to Use</h3>
+        <p>Simple controls designed for phones and computers.</p>
       </div>
 
-      <div class="controls">
-        <div>
-          <h3>🔊 Volume</h3>
-          <button data-command="Volume +">＋</button>
-          <button data-command="Volume -">－</button>
-          <button data-command="Mute">MUTE</button>
-        </div>
-        <div>
-          <h3>📡 Channel</h3>
-          <button data-command="Channel +">＋</button>
-          <button data-command="Channel -">－</button>
-        </div>
+      <div class="feature">
+        <div class="icon">📺</div>
+        <h3>Smart TV Support</h3>
+        <p>Designed for popular Smart TV brands.</p>
       </div>
-      <p class="status" id="action" role="status">Demo mode — TV commands are not connected</p>
-    </section>
 
-    <footer>
-      EBCONTROL © 2026<br>
-      One Remote. Many Smart TVs.
-    </footer>
-  </main>
+      <div class="feature">
+        <div class="icon">⚡</div>
+        <h3>Modern Design</h3>
+        <p>A clean, fast and professional user experience.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section" id="brands">
+    <h2>Supported TV Brands</h2>
+    <p>Our planned TV compatibility list.</p>
+
+    <div class="brands">
+      <span>LG</span>
+      <span>Samsung</span>
+      <span>Sony</span>
+      <span>Hisense</span>
+      <span>TCL</span>
+      <span>Philips</span>
+      <span>Android TV</span>
+      <span>Google TV</span>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 EBCONTROL. All rights reserved.</p>
+    <p>Smart Control. Better Entertainment.</p>
+  </footer>
 
   <script>
-    const statusEl = document.getElementById("status");
-    const actionEl = document.getElementById("action");
-
-    document.getElementById("connectBtn").addEventListener("click", () => {
-      const brand = document.getElementById("brand").value;
-      const ip = document.getElementById("ip").value.trim();
-      statusEl.textContent = `Selected ${brand}${ip ? " • " + ip : ""}. TV integration is not configured yet.`;
-      actionEl.textContent = "Demo mode — no commands have been sent to a TV.";
-    });
-
-    document.querySelectorAll("[data-command]").forEach(button => {
-      button.addEventListener("click", () => {
-        actionEl.textContent = `Demo button: ${button.dataset.command}`;
-      });
-    });
-
-    let installPrompt;
-    const installBtn = document.getElementById("installBtn");
-    window.addEventListener("beforeinstallprompt", event => {
-      event.preventDefault();
-      installPrompt = event;
-      installBtn.style.display = "block";
-    });
-    installBtn.addEventListener("click", async () => {
-      if (!installPrompt) return;
-      installPrompt.prompt();
-      await installPrompt.userChoice;
-      installPrompt = null;
-      installBtn.style.display = "none";
-    });
-
-    if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("/sw.js")
-          .catch(error => console.error("Service worker registration failed:", error));
-      });
+    function showMessage() {
+      alert("Welcome to EBCONTROL! Remote controls are coming soon.");
     }
   </script>
+
 </body>
 </html>
