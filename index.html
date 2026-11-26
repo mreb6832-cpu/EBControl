@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080d19">
+  <meta name="description" content="EBCONTROL Universal Smart TV Remote">
+  <title>EBCONTROL - Universal TV Remote</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.svg">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; padding: 22px;
+      background: #080d19; color: #f7f9fc;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .app { width: 100%; max-width: 480px; margin: 0 auto; }
+    header { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+    .logo { font-size: 25px; font-weight: 900; letter-spacing: .5px; color:#42a5ff; }
+    .logo span { color:#fff; }
+    .tag { color:#91a1ba; font-size:12px; }
+    .card {
+      background:#121d30; border:1px solid #25334b;
+      border-radius:20px; padding:20px; margin-top:20px;
+    }
+    h2 { font-size:20px; margin:0 0 12px; }
+    h3 { font-size:15px; margin:8px 0; }
+    select,input {
+      width:100%; padding:14px; margin:8px 0;
+      background:#0a1425; color:#fff;
+      border:1px solid #34445f; border-radius:10px; font-size:15px;
+    }
+    button {
+      border:0; border-radius:13px; padding:14px;
+      background:#1d2c45; color:white; font-size:16px;
+      cursor:pointer; touch-action: manipulation;
+    }
+    button:focus-visible, select:focus-visible, input:focus-visible {
+      outline:2px solid #42a5ff; outline-offset:2px;
+    }
+    .primary { background:#147cf5; width:100%; font-weight:bold; }
+    .status { text-align:center; color:#a5b5cc; font-size:13px; line-height:1.5; }
+    .power {
+      width:75px; height:75px; border-radius:50%;
+      background:#193c65; color:#55aaff; font-size:30px;
+      border:2px solid #2689ff;
+    }
+    .pad {
+      display:grid; grid-template-columns:repeat(3,1fr);
+      gap:10px; max-width:260px; margin:20px auto;
+    }
+    .pad button { height:55px; font-size:20px; }
+    .ok { background:#147cf5; border-radius:50%; }
+    .controls { display:grid; grid-template-columns:1fr 1fr; gap:15px; }
+    .controls button { width:100%; margin:5px 0; }
+    .install { display:none; margin-top:12px; width:100%; background:#203b5d; }
+    footer { text-align:center; color:#65758d; font-size:12px; margin:25px 0 10px; line-height:1.6; }
+    @media (max-width:360px) { body { padding:14px; } .card { padding:16px; } }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div class="logo">EB<span>CONTROL</span></div>
+      <div class="tag">UNIVERSAL TV REMOTE</div>
+    </header>
+
+    <section class="card">
+      <h2>📺 Connect your TV</h2>
+      <p class="tag">Choose your Smart TV brand</p>
+      <select id="brand" aria-label="TV brand">
+        <option>LG</option>
+        <option>Samsung</option>
+        <option>Sony</option>
+        <option>Hisense</option>
+        <option>TCL</option>
+        <option>Philips</option>
+        <option>Android TV</option>
+        <option>Google TV</option>
+      </select>
+      <input id="ip" inputmode="decimal" placeholder="TV IP address (optional)" aria-label="TV IP address">
+      <button class="primary" id="connectBtn">CONNECT TV</button>
+      <p class="status" id="status" role="status">Not connected</p>
+      <button class="install" id="installBtn">Install EBCONTROL</button>
+    </section>
+
+    <section class="card" style="text-align:center">
+      <h2>Remote Control</h2>
+      <button class="power" data-command="Power" aria-label="Power">⏻</button>
+      <p class="tag">POWER</p>
+
+      <div class="pad" aria-label="Navigation controls">
+        <span></span><button data-command="Up" aria-label="Up">▲</button><span></span>
+        <button data-command="Left" aria-label="Left">◀</button>
+        <button class="ok" data-command="OK">OK</button>
+        <button data-command="Right" aria-label="Right">▶</button>
+        <button data-command="Back">↩</button>
+        <button data-command="Down" aria-label="Down">▼</button>
+        <button data-command="Home">⌂</button>
+      </div>
+
+      <div class="controls">
+        <div>
+          <h3>🔊 Volume</h3>
+          <button data-command="Volume +">＋</button>
+          <button data-command="Volume -">－</button>
+          <button data-command="Mute">MUTE</button>
+        </div>
+        <div>
+          <h3>📡 Channel</h3>
+          <button data-command="Channel +">＋</button>
+          <button data-command="Channel -">－</button>
+        </div>
+      </div>
+      <p class="status" id="action" role="status">Demo mode — TV commands are not connected</p>
+    </section>
+
+    <footer>
+      EBCONTROL © 2026<br>
+      One Remote. Many Smart TVs.
+    </footer>
+  </main>
+
+  <script>
+    const statusEl = document.getElementById("status");
+    const actionEl = document.getElementById("action");
+
+    document.getElementById("connectBtn").addEventListener("click", () => {
+      const brand = document.getElementById("brand").value;
+      const ip = document.getElementById("ip").value.trim();
+      statusEl.textContent = `Selected ${brand}${ip ? " • " + ip : ""}. TV integration is not configured yet.`;
+      actionEl.textContent = "Demo mode — no commands have been sent to a TV.";
+    });
+
+    document.querySelectorAll("[data-command]").forEach(button => {
+      button.addEventListener("click", () => {
+        actionEl.textContent = `Demo button: ${button.dataset.command}`;
+      });
+    });
+
+    let installPrompt;
+    const installBtn = document.getElementById("installBtn");
+    window.addEventListener("beforeinstallprompt", event => {
+      event.preventDefault();
+      installPrompt = event;
+      installBtn.style.display = "block";
+    });
+    installBtn.addEventListener("click", async () => {
+      if (!installPrompt) return;
+      installPrompt.prompt();
+      await installPrompt.userChoice;
+      installPrompt = null;
+      installBtn.style.display = "none";
+    });
+
+    if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/sw.js")
+          .catch(error => console.error("Service worker registration failed:", error));
+      });
+    }
+  </script>
+</body>
+</html>
