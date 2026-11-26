@@ -1,0 +1,269 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071326">
+  <title>EBCONTROL | Connect TV</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #17345b, #050b16 70%);
+      color: white;
+      padding: 25px 15px;
+    }
+
+    header {
+      max-width: 850px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 25px;
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #08baff;
+    }
+
+    a {
+      color: #a9c7eb;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 520px;
+      margin: 35px auto;
+      background: #10213c;
+      border: 1px solid #29466e;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 20px 50px #0006;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 27px;
+      margin-bottom: 10px;
+    }
+
+    h1 span {
+      color: #08baff;
+    }
+
+    .subtitle {
+      color: #9fb1ca;
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .wifi {
+      background: #0b2d43;
+      border: 1px solid #087cff;
+      border-radius: 12px;
+      padding: 15px;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .wifi strong {
+      display: block;
+      color: #08baff;
+      margin-bottom: 6px;
+    }
+
+    .wifi p {
+      font-size: 12px;
+      color: #b8cce4;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 12px;
+      font-weight: bold;
+    }
+
+    .brands {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .brand {
+      min-height: 58px;
+      background: #172d4b;
+      border: 1px solid #345274;
+      border-radius: 10px;
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .brand.selected {
+      background: #075a91;
+      border: 2px solid #08baff;
+    }
+
+    .connect {
+      width: 100%;
+      padding: 15px;
+      margin-top: 22px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #087cff, #08baff);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .connect:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+
+    .status {
+      background: #0b182b;
+      border: 1px solid #29466e;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 18px;
+      color: #b8d0ed;
+      font-size: 13px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .note {
+      color: #8296b5;
+      font-size: 11px;
+      text-align: center;
+      line-height: 1.6;
+      margin-top: 20px;
+    }
+
+    footer {
+      text-align: center;
+      color: #8296b5;
+      font-size: 12px;
+      padding: 20px;
+    }
+
+    @media(max-width: 380px) {
+      .container {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">EB<span>CONTROL</span></div>
+  <a href="index.html">← Home</a>
+</header>
+
+<main class="container">
+
+  <h1>Connect Your <span>TV</span></h1>
+
+  <p class="subtitle">
+    Choose your Smart TV brand to prepare your connection.
+  </p>
+
+  <div class="wifi">
+    <strong>📶 Wi-Fi Only</strong>
+    <p>Your phone and TV should be connected to the same Wi-Fi network.</p>
+  </div>
+
+  <label class="label">1. Select your TV brand</label>
+
+  <div class="brands">
+    <button class="brand" onclick="selectBrand('Samsung', this)">Samsung</button>
+    <button class="brand" onclick="selectBrand('LG', this)">LG</button>
+    <button class="brand" onclick="selectBrand('Sony', this)">Sony</button>
+    <button class="brand" onclick="selectBrand('Hisense', this)">Hisense</button>
+    <button class="brand" onclick="selectBrand('TCL', this)">TCL</button>
+    <button class="brand" onclick="selectBrand('Philips', this)">Philips</button>
+    <button class="brand" onclick="selectBrand('Android TV', this)">Android TV</button>
+    <button class="brand" onclick="selectBrand('Google TV', this)">Google TV</button>
+  </div>
+
+  <button class="connect" id="connectBtn" onclick="connectTV()" disabled>
+    Continue →
+  </button>
+
+  <div class="status" id="status" aria-live="polite">
+    Select your TV brand to continue.
+  </div>
+
+  <p class="note">
+    Connection discovery is not active yet.
+    This page currently prepares your TV selection.
+    Actual TV control requires a compatible local connection
+    method and may require permission on your TV.
+  </p>
+
+</main>
+
+<footer>
+  © 2026 EBCONTROL — Smart Control. Better Entertainment.
+</footer>
+
+<script>
+  let selectedBrand = "";
+
+  function selectBrand(brand, button) {
+    selectedBrand = brand;
+
+    document.querySelectorAll(".brand").forEach(item => {
+      item.classList.remove("selected");
+    });
+
+    button.classList.add("selected");
+
+    document.getElementById("connectBtn").disabled = false;
+
+    document.getElementById("status").textContent =
+      brand + " selected. Press Continue to see the next step.";
+  }
+
+  function connectTV() {
+    if (!selectedBrand) return;
+
+    document.getElementById("status").textContent =
+      "Selected TV: " + selectedBrand +
+      ". Make sure your phone and TV use the same Wi-Fi. " +
+      "Automatic TV discovery is not available yet.";
+
+    localStorage.setItem("ebcontrol_tv_brand", selectedBrand);
+
+    document.getElementById("connectBtn").textContent =
+      "Open Remote →";
+
+    document.getElementById("connectBtn").onclick = function() {
+      window.location.href = "remote.html";
+    };
+  }
+</script>
+
+</body>
+</html>
